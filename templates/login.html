@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mafia Login</title>
+  <link href="https://fonts.cdnfonts.com/css/the-godfather" rel="stylesheet">
+  <style>
+    body, h1, h2, h3, h4, p, ul, li {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'The Godfather', sans-serif;
+      background-color: #1c1c1c;
+      color: #0e0202;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    body::before {
+  content: "";
+  background-image: url("https://img.freepik.com/free-vector/mysterious-gangster-character_23-2148473800.jpg?");
+  background-size: 50% auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center top;
+  opacity: 0.20;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+
+
+    .logo {
+      font-size: 100px; 
+      margin: 20px;
+      color: transparent;
+      -webkit-text-stroke: 1px #ff6600;
+      text-shadow: 2px #ff6600;
+      margin-bottom: 20px;
+      letter-spacing: 5px;
+      margin-top: 2px;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .form input[type="text"],
+    .form input[type="password"],
+    .form input[type="submit"] {
+      border: none;
+      padding: 10px;
+      margin: 10px;
+      width: 200px;
+      font-size: 16px;
+      background-color: #333;
+      color: #fff;
+      outline: none;
+    }
+
+    .form input[type="submit"] {
+      cursor: pointer;
+      background-color: #ff6600;
+    }
+
+    .form input[type="submit"]:hover {
+      background-color: rgb(114, 47, 7);
+    }
+    .success-message {
+        color: green;
+      }
+    .error-message {
+      color: red;
+    }
+
+    .register-link {
+      color: #ff6600;
+      text-decoration: underline;
+      margin-top: 20px;
+      font-size: 50px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="logo">Mafia Login</h1>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {% if 'success' in message %}
+        <!-- Use the success-message class for success messages -->
+        <p class="success-message">{{ message }}</p>
+      {% else %}
+        <p class="error-message">{{ message }}</p>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+  <form class="form" method="POST" action="/login">
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <input type="submit" value="Login">
+  </form>
+  <a href="/register" class="register-link">Register</a>
+</div>
+</body>
+</html>

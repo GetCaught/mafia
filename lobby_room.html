@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lobby</title>
+    <style>
+      /* Add your custom styling for the lobby waiting room */
+      /* For example, you can center the content and apply background styles */
+      body {
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Press Start 2P', cursive;
+      }
+
+      .lobby-info {
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .lobby-pin {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lobby-info">
+      <h2>Lobby Waiting Room</h2>
+      <p>Your Lobby PIN:</p>
+      <p class="lobby-pin">{{ pin }}</p>
+      <!-- You can add other lobby information or options here -->
+    </div>
+  </body>
+</html>

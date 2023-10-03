@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <style>
+    /* Arcade-themed CSS code */
+    /* Place the CSS code from style.css here */
+  </style>
+</head>
+<body>
+  <header class="arcade-header">
+    <h1>Jester</h1>
+    <div class="jester-hat"></div>
+  </header>
+  <div class="arcade-container">
+    <h1>Login</h1>
+    <form method="POST" action="/login">
+      <input type="text" name="username" placeholder="Username" required><br>
+      <input type="password" name="password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Register</a></p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

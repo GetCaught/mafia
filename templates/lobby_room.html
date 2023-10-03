@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lobby</title>
+  <link href="https://fonts.cdnfonts.com/css/the-godfather" rel="stylesheet">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/the-godfather');
+    </style>
+  <style>
+    
+    /* Reset default margin and padding */
+    body, h1, h2, h3, h4, p, ul, li {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #333333;
+      color: #ffffff;
+      font-family: 'The Godfather', sans-serif;
+      justify-content: center;
+      align-items:normal;
+      height: 500vh;
+      font-size: 100px;
+      margin-top: 100px;
+    }
+     
+    .lobby-pin {
+      font-size: 30px; /* Adjust the font size to your preference */
+      color: #ff6600;
+      font-family:'Press Start 2P', cursive; /* Set the font weight to normal */
+      position: absolute; /* Position the element absolutely */
+      top: 20px; /* Adjust the top position */
+      left: 20px; /* Adjust the left position */
+    }
+
+    .lobby-info {
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 200px;
+      background-color: #333333;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .lobby-name {
+      font-size: 20px;
+      margin-bottom: 100px;
+      color: #ff6600;
+      margin-top: 25px;
+      font-size:100px;
+    }
+
+    .participants {
+      margin-top: 10px;
+      font-size: 100px;
+      margin-left: 25px;
+      color: #cccccc;
+    }
+
+    .participants ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .participants li {
+      margin-bottom: 100px;
+    }
+
+    h2 {
+      margin-bottom: 200px;
+      margin-left: 25px;
+      font-size: 24px;
+      color: #ff6600;
+    }
+
+   
+  </style>
+</head>
+<body>
+  <div class="lobby-info">
+    <p>Lobby Name: <span id="lobbyName">{{ lobby_name }}</span></p>
+    <p class="lobby-name">{{ lobby_name }}</p>
+    <p class="lobby-pin">PIN: {{ pin }}</p>
+    
+    <div class="participants">
+      <p>Participants:</p>
+      <ul>
+        {% for participant in participants %}
+          <li>{{ participant }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    
+    <!-- You can add other lobby information or options here -->
+  </div>
+ 
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const lobbyName = urlParams.get("name");
+
+    document.getElementById("lobbyName").textContent = lobbyName;
+</script>
+
+</body>
+</html>

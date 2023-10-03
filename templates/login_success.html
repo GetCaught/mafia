@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mafia</title>
+  <link href="https://fonts.cdnfonts.com/css/the-godfather" rel="stylesheet">
+  <style>
+    /* Reset default margin and padding */
+    body, h1, h2, h3, h4, p, ul, li {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #1c1c1c;
+      color: #0e0202;
+      font-family: 'The Godfather', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative;
+      letter-spacing: 10px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      margin-right: 50px;
+      font-size: xx-large;
+      font-style: italic;
+    }
+
+    body::before {
+  content: "";
+  background-image: url("https://img.freepik.com/free-vector/mysterious-gangster-character_23-2148473800.jpg?");
+  background-size: 50% auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center top;
+  opacity: 0.30;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+
+    .logo {
+      font-size: 100px;
+      margin-bottom: 20px;
+      margin-top: 0px;
+      margin-left: 225px;
+      color: transparent;
+      -webkit-text-stroke: 2px #ff6600;
+      text-shadow: 2px #ff6600;
+      margin-left: 280px;
+    }
+
+    .Mafia-image {
+      width: 100px;
+      height: auto;
+      opacity: 0.1;
+      margin-top: -20px;
+    }
+
+    .btn-group {
+      margin-top: 20px;
+    }
+
+    .btn {
+      margin: 10px;
+      padding: 20px 20px;
+      font-size: 25px;
+      background-color: #ff6600;
+      border: 10px solid #100;
+      border-radius: -50px;
+      cursor: pointer;
+      margin-left: 200px;
+      width: 350px;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      z-index: 9999; /* Ensure the overlay is above everything else */
+    }
+
+    .modal {
+      background-color: #ff6600;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0.5px 0.5px rgba(0, 0, 0, 0.685);
+      animation: slide-up 1s ease;
+      max-width: 400px;
+      width: 80%;
+      text-align: center;
+    }
+
+    .modal input[type="text"] {
+      width: 100%;
+      height: 40px;
+      padding: 0px;
+      margin-top: 10px;
+      font-size: xx-large;
+
+    }
+
+    .modal button.btn {
+      display: block;
+      margin: 10px auto;
+    }
+
+    @keyframes slide-up {
+      from {
+        transform: translateY(50px);
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container"> 
+    <h1 class="logo">Mafia</h1>
+    <div class="btn-group">
+      <button class="btn" onclick="showCreateLobbyModal()">Create new lobby</button>
+      <button class="btn" onclick="showJoinLobbyModal()">Join lobby</button>
+    </div>
+  </div>
+
+  <!-- Custom pop-up modals -->
+  <div class="overlay" id="createLobbyModal">
+    <div class="modal">
+      <h2>Create a New Lobby</h2>
+      <input type="text" placeholder="Enter lobby name" id="lobbyNameInput">
+      <button class="btn" onclick="createNewLobby()">Create lobby</button>
+      <button class="btn" onclick="hideCreateLobbyModal()">Cancel</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="joinLobbyModal">
+    <div class="modal">
+      <h2>Join a Lobby</h2>
+      <select id="lobbySelect">
+        {% for lobby in active_lobbies %}
+          <option value="{{ lobby.creator }}">{{ lobby.creator }}</option>
+        {% endfor %}
+      </select>
+      <input type="text" placeholder="Enter lobby PIN" id="lobbyPinInput">
+      <button class="btn" onclick="joinLobby()">Join</button>
+      <button class="btn" onclick="hideJoinLobbyModal()">Cancel</button>
+    </div>
+  </div>
+  
+
+  <script>
+    function showCreateLobbyModal() {
+      console.log("Showing modal");
+      document.getElementById("createLobbyModal").style.display = "flex";
+      document.getElementById("createLobbyModal").style.visibility = "visible";
+    }
+
+    function createNewLobby() {
+      console.log("Creating new lobby");
+      const lobbyNameInput = document.getElementById("lobbyNameInput");
+      const lobbyNameToCreate = lobbyNameInput.value;
+
+      if (lobbyNameToCreate) {
+        const encodedLobbyName = encodeURIComponent(lobbyNameToCreate);
+        console.log("Encoded lobby name:", encodedLobbyName); // Check the encoded name
+        window.location.href = "/lobby_room/" + encodedLobbyName;
+      }
+    }
+
+    function hideCreateLobbyModal() {
+      document.getElementById("createLobbyModal").style.display = "none";
+      document.getElementById("createLobbyModal").style.visibility = "hidden";
+    }
+
+    function showJoinLobbyModal() {
+  fetch('/get_available_lobbies')
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const lobbySelect = document.getElementById("lobbySelect");
+        lobbySelect.innerHTML = ""; // Clear existing options
+
+        // Populate the scroll-down menu with available lobbies
+        data.lobbies.forEach(lobby => {
+          const option = document.createElement("option");
+          option.value = lobby;
+          option.textContent = lobby;
+          lobbySelect.appendChild(option);
+        });
+
+        // Show the join lobby modal
+        document.getElementById("joinLobbyModal").style.display = "flex";
+        document.getElementById("joinLobbyModal").style.visibility = "visible";
+      } else {
+        // Handle the case where fetching available lobbies failed
+        alert('Failed to fetch available lobbies. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching available lobbies:', error);
+      alert('An error occurred while fetching available lobbies. Please try again.');
+    });
+}
+
+
+  function hideJoinLobbyModal() {
+    document.getElementById("joinLobbyModal").style.display = "none";
+    document.getElementById("joinLobbyModal").style.visibility = "hidden";
+  }
+
+  function joinLobby() {
+  const lobbySelect = document.getElementById("lobbySelect");
+  const selectedLobby = lobbySelect.options[lobbySelect.selectedIndex].value;
+  const lobbyPin = document.getElementById("lobbyPinInput").value;
+  const username = 'username_here'; // Replace 'username_here' with the actual username (you may get it from the user session)
+
+  if (selectedLobby && lobbyPin) {
+    // Send an AJAX request to the server to validate the PIN
+    fetch(`/join_lobby`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `username=${encodeURIComponent(username)}&lobby_name=${encodeURIComponent(selectedLobby)}&pin=${encodeURIComponent(lobbyPin)}`,
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Successfully joined the lobby, redirect to lobby_room.html
+          window.location.href = `/lobby_room/${encodeURIComponent(selectedLobby)}`;
+        } else {
+          // Show an error message to the user
+          alert('Invalid PIN code. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error joining lobby:', error);
+        alert('An error occurred while joining the lobby. Please try again.');
+      });
+  } else {
+    alert('Please select a lobby and enter the lobby PIN.');
+  }
+}
+
+  </script>

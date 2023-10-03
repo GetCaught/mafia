@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jester registration</title>
+    <style>
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: 'Press Start 2P', cursive;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      .logo {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+
+      .form input[type="text"],
+      .form input[type="password"],
+      .form input[type="submit"] {
+        border: none;
+        padding: 10px;
+        margin: 10px;
+        width: 200px;
+        font-size: 16px;
+        background-color: #333;
+        color: #fff;
+        outline: none;
+      }
+
+      .form input[type="submit"] {
+        cursor: pointer;
+        background-color: #f00;
+      }
+
+      .form input[type="submit"]:hover {
+        background-color: #900;
+      }
+
+      .error-message {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="logo">Arcade Registration</h1>
+      <form class="form" method="POST" action="/register">
+        <input type="text" name="username" placeholder="Username" required>
+        <br>
+        <input type="password" name="password" placeholder="Password" required>
+        <br>
+        <input type="submit" value="Register">
+      </form>
+      {% if message %}
+      <p class="error-message">{{ message }}</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
